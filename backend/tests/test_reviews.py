@@ -1,14 +1,11 @@
-import base64
-
 import pytest
 
 
 async def get_token(client, email="reviewer@test.com", password="Password123!"):
     await client.post("/api/v1/auth/signup", json={"email": email, "password": password, "role": "user"})
-    credentials = base64.b64encode(f"{email}:{password}".encode("utf-8")).decode("utf-8")
     response = await client.post(
-        "/api/v1/auth/token",
-        headers={"Authorization": f"Basic {credentials}"},
+        "/api/v1/auth/login",
+        json={"email": email, "password": password},
     )
     return response.json()["access_token"]
 
@@ -20,15 +17,19 @@ async def test_add_review(client):
 
     response = await client.post(
         "/api/v1/books",
-        json={
+        data={
             "title": "Review Book",
             "author": "Author",
             "genre": "Fantasy",
-            "year_published": 2022,
+            "year_published": "2022",
         },
+        files={"file": ("book.txt", b"Review content.", "text/plain")},
         headers=headers,
     )
     book_id = response.json()["id"]
+
+    response = await client.post(f"/api/v1/books/{book_id}/borrow", headers=headers)
+    assert response.status_code == 200
 
     response = await client.post(
         f"/api/v1/books/{book_id}/reviews",

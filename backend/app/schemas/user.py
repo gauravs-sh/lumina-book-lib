@@ -11,6 +11,11 @@ class UserCreate(BaseModel):
     role: str = "user"
 
 
+class UserUpdate(BaseModel):
+    email: EmailStr | None = None
+    password: str | None = Field(default=None, min_length=8)
+
+
 class UserRead(BaseModel):
     id: int
     email: EmailStr

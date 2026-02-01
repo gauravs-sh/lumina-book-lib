@@ -1,22 +1,22 @@
 # Architecture
 
 ## Overview
-The system uses a modular, layered architecture:
-- **API layer**: FastAPI routers (auth, users, books, reviews, documents, ingestion, QA, recommendations).
-- **Service layer**: Embeddings, summarization, ingestion, recommendations, and RAG selection.
+LuminaLib uses a modular, layered architecture:
+- **API layer**: FastAPI routers (auth, users, books, reviews, recommendations).
+- **Service layer**: LLM, storage, review analysis, recommendations.
 - **Data layer**: SQLAlchemy ORM with async sessions, PostgreSQL database.
-- **Frontend**: React + Vite SPA using a lightweight API client.
+- **Frontend**: Next.js (SSR) with a typed API service layer.
 
 ## Data Flow
-1. User logs in via HTTP Basic and receives a JWT.
-2. Authenticated users upload documents and create books.
-3. Ingestion splits documents into chunks, generates embeddings, and stores them.
-4. Q&A uses vector similarity to retrieve relevant chunks and generates an answer.
+1. User signs up/logs in and receives a JWT.
+2. User uploads a book file; storage is abstracted (local/S3).
+3. Background tasks generate AI summaries and review consensus.
+4. Recommendations are computed from user preferences.
 
 ## Scalability
 - Stateless API server; scale horizontally behind a load balancer.
-- Use AWS RDS for PostgreSQL, ElastiCache for recommendation caching, and S3 for document storage.
-- Consider a queue (SQS) for ingestion tasks.
+- Use AWS RDS for PostgreSQL and S3 for storage.
+- Consider a queue (SQS) for background tasks.
 
 ## Recommendation Model
 - Optional TF-IDF model using scikit-learn. Train via `POST /recommendations/train`.

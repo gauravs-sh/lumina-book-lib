@@ -1,15 +1,12 @@
 import asyncio
-import base64
-
 import pytest
 
 
 async def get_token(client, email="doc@test.com", password="Password123!"):
     await client.post("/api/v1/auth/signup", json={"email": email, "password": password, "role": "user"})
-    credentials = base64.b64encode(f"{email}:{password}".encode("utf-8")).decode("utf-8")
     response = await client.post(
-        "/api/v1/auth/token",
-        headers={"Authorization": f"Basic {credentials}"},
+        "/api/v1/auth/login",
+        json={"email": email, "password": password},
     )
     return response.json()["access_token"]
 

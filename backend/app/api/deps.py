@@ -6,6 +6,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import decode_access_token
+from app.services.llm import LLMProvider, get_llm_provider
+from app.services.storage import StorageProvider, get_storage_provider
 from app.db.session import get_session
 from app.models.user import User
 
@@ -33,3 +35,11 @@ async def require_admin(user: User = Depends(get_current_user)) -> User:
     if user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin access required")
     return user
+
+
+async def get_storage() -> StorageProvider:
+    return await get_storage_provider()
+
+
+async def get_llm() -> LLMProvider:
+    return await get_llm_provider()

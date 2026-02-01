@@ -10,7 +10,6 @@ class BookCreate(BaseModel):
     author: str
     genre: str
     year_published: int = Field(ge=0, le=3000)
-    content: str | None = None
 
 
 class BookUpdate(BaseModel):
@@ -26,7 +25,11 @@ class BookRead(BaseModel):
     author: str
     genre: str
     year_published: int
+    file_name: str | None
+    content_type: str | None
+    file_size: int | None
     summary: str | None
+    review_summary: str | None
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
@@ -35,5 +38,13 @@ class BookRead(BaseModel):
 class BookSummaryRead(BaseModel):
     book_id: int
     summary: str | None
+    review_summary: str | None
     average_rating: float
     total_reviews: int
+
+
+class BookListResponse(BaseModel):
+    items: list[BookRead]
+    page: int
+    size: int
+    total: int

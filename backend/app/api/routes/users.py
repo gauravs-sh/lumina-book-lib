@@ -4,9 +4,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_db, require_admin
+from app.api.deps import get_current_user, get_db, require_admin
 from app.models.user import User
+from app.models.user_preference import UserPreference
 from app.schemas.user import UserRead
+from app.schemas.preferences import UserPreferencesRead, UserPreferencesUpdate
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -32,3 +34,36 @@ async def update_role(
     await session.commit()
     await session.refresh(user)
     return user
+
+
+@router.get("/me/preferences", response_model=UserPreferencesRead)
+async def get_preferences(
+    session: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+) -> UserPreference:
+    result = await session.execute(select(UserPreference).where(UserPreference.user_id == user.id))
+    pref = result.scalar_one_or_none()
+    if not pref:
+        pref = UserPreference(user_id=user.id, preferences={})
+        session.add(pref)
+        await session.commit()
+        await session.refresh(pref)
+    return pref
+
+
+@router.put("/me/preferences", response_model=UserPreferencesRead)
+async def update_preferences(
+    payload: UserPreferencesUpdate,
+    session: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+) -> UserPreference:
+    result = await session.execute(select(UserPreference).where(UserPreference.user_id == user.id))
+    pref = result.scalar_one_or_none()
+    if not pref:
+        pref = UserPreference(user_id=user.id, preferences=payload.preferences)
+        session.add(pref)
+    else:
+        pref.preferences = payload.preferences
+    await session.commit()
+    await session.refresh(pref)
+    return pref

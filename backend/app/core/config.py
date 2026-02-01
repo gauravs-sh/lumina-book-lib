@@ -9,7 +9,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
-    app_name: str = "Smart QA Platform"
+    app_name: str = "LuminaLib"
     environment: str = "local"
     api_v1_prefix: str = "/api/v1"
 
@@ -24,6 +24,15 @@ class Settings(BaseSettings):
 
     openrouter_api_key: str | None = Field(default=None, alias="OPENROUTER_API_KEY")
     openrouter_model: str = Field(default="meta-llama/llama-3-8b-instruct", alias="OPENROUTER_MODEL")
+
+    llm_provider: str = Field(default="mock", alias="LLM_PROVIDER")
+    llm_base_url: str | None = Field(default=None, alias="LLM_BASE_URL")
+    llm_api_key: str | None = Field(default=None, alias="LLM_API_KEY")
+
+    storage_provider: str = Field(default="local", alias="STORAGE_PROVIDER")
+    storage_local_path: str = Field(default="./storage", alias="STORAGE_LOCAL_PATH")
+    storage_bucket: str | None = Field(default=None, alias="STORAGE_BUCKET")
+    storage_endpoint: str | None = Field(default=None, alias="STORAGE_ENDPOINT")
 
     cors_origins: List[str] = Field(default=["http://localhost:5173"], alias="CORS_ORIGINS")
 

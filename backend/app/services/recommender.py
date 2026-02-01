@@ -6,11 +6,14 @@ from app.models.book import Book
 from app.services.embedding import cosine_similarity, embed_text
 
 
-def recommend_books(books: list[Book], preferred_genres: list[str] | None = None, limit: int = 5) -> list[Book]:
+def recommend_books(books: list[Book], preferences: dict | None = None, limit: int = 5) -> list[Book]:
     if not books:
         return []
 
-    preferred_genres = [genre.lower() for genre in (preferred_genres or [])]
+    preferences = preferences or {}
+    preferred_genres = [genre.lower() for genre in preferences.get("genres", [])]
+    preferred_authors = [author.lower() for author in preferences.get("authors", [])]
+    keywords = [keyword.lower() for keyword in preferences.get("keywords", [])]
 
     genre_scores = Counter()
     for book in books:
@@ -20,6 +23,11 @@ def recommend_books(books: list[Book], preferred_genres: list[str] | None = None
         base = genre_scores[book.genre.lower()]
         if preferred_genres and book.genre.lower() in preferred_genres:
             base += 5
+        if preferred_authors and book.author.lower() in preferred_authors:
+            base += 4
+        if keywords:
+            text = f"{book.title} {book.summary or ''}".lower()
+            base += sum(1 for keyword in keywords if keyword in text)
         return float(base)
 
     ranked = sorted(books, key=score, reverse=True)

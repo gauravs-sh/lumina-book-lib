@@ -1,14 +1,11 @@
-import base64
-
 import pytest
 
 
 async def get_token(client, email="rec@test.com", password="Password123!"):
     await client.post("/api/v1/auth/signup", json={"email": email, "password": password, "role": "user"})
-    credentials = base64.b64encode(f"{email}:{password}".encode("utf-8")).decode("utf-8")
     response = await client.post(
-        "/api/v1/auth/token",
-        headers={"Authorization": f"Basic {credentials}"},
+        "/api/v1/auth/login",
+        json={"email": email, "password": password},
     )
     return response.json()["access_token"]
 
@@ -21,15 +18,22 @@ async def test_recommendations(client):
     for idx in range(3):
         await client.post(
             "/api/v1/books",
-            json={
+            data={
                 "title": f"Book {idx}",
                 "author": "Author",
                 "genre": "Mystery" if idx % 2 == 0 else "Romance",
-                "year_published": 2020 + idx,
+                "year_published": str(2020 + idx),
             },
+            files={"file": (f"book-{idx}.txt", b"Some content", "text/plain")},
             headers=headers,
         )
 
-    response = await client.get("/api/v1/recommendations?genres=Mystery", headers=headers)
+    await client.put(
+        "/api/v1/users/me/preferences",
+        json={"preferences": {"genres": ["Mystery"]}},
+        headers=headers,
+    )
+
+    response = await client.get("/api/v1/recommendations", headers=headers)
     assert response.status_code == 200
     assert response.json()

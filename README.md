@@ -1,12 +1,11 @@
-# Smart QA Platform
+# LuminaLib
 
-Production-ready, modular full-stack application with FastAPI backend and React frontend. Includes RAG-based Q&A, document ingestion, user management, book management, and reviews. Designed for quality, testability, and deployment.
+Production-ready, modular full-stack application with FastAPI backend and Next.js frontend. Includes book ingestion, borrowing, reviews, AI summaries, and personalized recommendations. Designed for clean architecture, DI, and extensibility.
 
 ## Contents
-- [Architecture](docs/architecture.md)
+- [Architecture](ARCHITECTURE.md)
 - [Backend Guide](backend/README.md)
 - [Frontend Guide](frontend/README.md)
-- [RAG & AI Guide](docs/rag-ai.md)
 - [API Reference](docs/api.md)
 - [Deployment Guide (AWS)](docs/deployment-aws.md)
 - [Testing Guide](docs/testing.md)
@@ -24,23 +23,26 @@ Production-ready, modular full-stack application with FastAPI backend and React 
 
 ## Docker (Local)
 - Build and run everything:
-  - `docker compose up --build`
+   - `docker compose up --build`
 - Frontend: http://localhost:5173
 - Backend: http://localhost:8000/docs
+- LLM Mock: http://localhost:9000/v1/chat/completions
 
 ## Core Features
-- Authentication with HTTP Basic login -> JWT bearer tokens.
-- Admin-only user management.
-- Book CRUD, reviews, summaries, and recommendations.
-- Document upload + ingestion with embeddings.
-- RAG Q&A with OpenRouter (Llama3).
-- Async SQLAlchemy and asyncpg.
-- Comprehensive unit tests for backend and frontend.
+- JWT auth with signup/login/profile/logout.
+- Book ingestion with file storage abstraction (local/S3).
+- Borrow/return enforcement and review gating.
+- Async AI book summaries and review consensus.
+- Personalized recommendations via user preferences.
+- Swappable LLM provider (mock/OpenRouter/HTTP).
+- Async SQLAlchemy and PostgreSQL.
+- Unit tests for critical backend and frontend components.
 
 ## Project Structure
 - backend/ - FastAPI backend (async)
-- frontend/ - React frontend (Vite)
-- docs/ - Architecture, API, deployment, and RAG documentation
+- frontend/ - Next.js frontend (SSR)
+- llm-mock/ - Local mock LLM service
+- docs/ - API, deployment, and testing documentation
 
 ## Minimum Requirements
 - Python 3.10+

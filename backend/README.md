@@ -1,14 +1,15 @@
 # Backend (FastAPI)
 
 ## Overview
-Async FastAPI backend supporting user management, book management, reviews, document ingestion, and RAG-based Q&A. Includes JWT authentication obtained via HTTP Basic login.
+Async FastAPI backend for LuminaLib with JWT auth, book ingestion, borrow/return, reviews, and AI summaries. Designed for DI and provider swapping (LLM + storage).
 
 ## Features
 - Async SQLAlchemy + asyncpg
-- HTTP Basic login -> JWT bearer auth
-- Book CRUD, reviews, summary, recommendations
-- Document upload and ingestion with embeddings
-- RAG Q&A powered by OpenRouter (Llama3)
+- JWT signup/login/profile/logout
+- Book upload (PDF/text), borrow/return, and CRUD
+- Review analysis and AI summaries via background tasks
+- Recommendation engine using user preferences
+- Swappable LLM and storage providers
 - Structured logging and error handling
 
 ## Quick Start
@@ -34,8 +35,10 @@ Async FastAPI backend supporting user management, book management, reviews, docu
 
 ## Auth Flow
 - `POST /api/v1/auth/signup` to create a user.
-- `POST /api/v1/auth/token` using HTTP Basic to retrieve JWT.
-- Use `Authorization: Bearer <token>` for protected endpoints.
+- `POST /api/v1/auth/login` to retrieve JWT.
+- `GET /api/v1/auth/profile` to view profile.
+- `PUT /api/v1/auth/profile` to update email/password.
+- `POST /api/v1/auth/logout` to sign out.
 
 ## AWS Deployment Notes
 - Use RDS for PostgreSQL, ECS or EC2 for API, and S3 for document storage (if needed).
