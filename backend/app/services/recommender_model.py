@@ -27,8 +27,13 @@ def train_recommender(books: list[Book]) -> dict[str, str]:
     if not SKLEARN_AVAILABLE:
         return {"status": "skipped", "detail": "scikit-learn not installed"}
 
+    if not books:
+        return {"status": "skipped", "detail": "no books available for training"}
+
     _ensure_storage()
-    corpus = [book.summary or book.title for book in books]
+    corpus = [book.summary or book.title for book in books if (book.summary or book.title)]
+    if not corpus:
+        return {"status": "skipped", "detail": "no book text available for training"}
     vectorizer = TfidfVectorizer(stop_words="english")
     vectors = vectorizer.fit_transform(corpus)
 
