@@ -328,31 +328,33 @@ export default function BooksPage() {
                 <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
               </div>
             </div>
-            <div className="form-inline">
-              <input
-                placeholder="Review"
-                value={reviewText[book.id] || ""}
-                onChange={(e) =>
-                  setReviewText((prev) => ({
-                    ...prev,
-                    [book.id]: e.target.value,
-                  }))
-                }
-              />
-              <input
-                type="number"
-                min={1}
-                max={5}
-                value={reviewRating[book.id] || 5}
-                onChange={(e) =>
-                  setReviewRating((prev) => ({
-                    ...prev,
-                    [book.id]: Number(e.target.value),
-                  }))
-                }
-              />
-              <button onClick={() => handleReview(book.id)}>Submit Review</button>
-            </div>
+            {borrowStatus[book.id]?.status === "Borrowed" && (
+              <div className="form-inline">
+                <input
+                  placeholder="Review"
+                  value={reviewText[book.id] || ""}
+                  onChange={(e) =>
+                    setReviewText((prev) => ({
+                      ...prev,
+                      [book.id]: e.target.value,
+                    }))
+                  }
+                />
+                <input
+                  type="number"
+                  min={1}
+                  max={5}
+                  value={reviewRating[book.id] || 5}
+                  onChange={(e) =>
+                    setReviewRating((prev) => ({
+                      ...prev,
+                      [book.id]: Number(e.target.value),
+                    }))
+                  }
+                />
+                <button onClick={() => handleReview(book.id)}>Submit Review</button>
+              </div>
+            )}
           </article>
         ))}
       </div>
