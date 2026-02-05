@@ -44,6 +44,26 @@ Production-ready, modular full-stack application with FastAPI backend and Next.j
 - llm-mock/ - Local mock LLM service
 - docs/ - API, deployment, and testing documentation
 
+```
+lumina-book-lib/
+├── frontend/               # Next.js (React) application
+│   ├── app/ or pages/      # Next.js routing (App Router or Pages Router)
+│   ├── components/         # Reusable UI components
+│   ├── public/             # Static assets
+│   ├── styles/             # Global and module-level styles
+│   └── package.json
+│
+├── backend/                # Backend services
+│   ├── routes/             # API route definitions
+│   ├── controllers/        # Request handlers
+│   ├── services/           # Business logic layer
+│   ├── utils/              # Helper utilities
+│   └── package.json
+│
+├── README.md               # Root documentation
+└── .gitignore
+```
+
 ## Minimum Requirements
 - Python 3.10+
 - Node.js 18+
