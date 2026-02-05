@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, Request, UploadFile, status
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, select, desc
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.deps import get_current_user, get_db, get_llm, get_storage
@@ -76,7 +77,7 @@ async def list_books(
     size = min(max(size, 1), 50)
     total_result = await session.execute(select(func.count(Book.id)))
     total = total_result.scalar_one()
-    result = await session.execute(select(Book).offset((page - 1) * size).limit(size))
+    result = await session.execute(select(Book).order_by(desc(Book.created_at)).offset((page - 1) * size).limit(size))
     items = list(result.scalars().all())
     return BookListResponse(items=items, page=page, size=size, total=total)
 
