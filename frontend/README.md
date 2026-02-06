@@ -1,7 +1,7 @@
 ## Overview
+
 The frontend of **Lumina Book Library** is built using **Next.js**, a React-based framework that enables server-side rendering (SSR), static site generation (SSG), and optimized client-side rendering.  
 The application is designed with a strong focus on performance, scalability, maintainability, and user experience.
-The SSR-capable UI for authentication, book ingestion, borrowing, reviews, and recommendations.
 
 ## Setup
 1. Install dependencies:
@@ -13,29 +13,6 @@ The SSR-capable UI for authentication, book ingestion, borrowing, reviews, and r
 
 ## Testing
 - `npm test`
-
-## Technology Stack
-
-### Core Framework
-- Next.js (React framework)
-- React
-- JavaScript (ES6+)
-
-### Styling
-- CSS Modules / Global CSS
-- Responsive design principles
-
-### Tooling
-- npm
-- ESLint
-- Environment-based configuration
-
-# Frontend – Lumina Book Library
-
-## Overview
-
-The frontend of **Lumina Book Library** is built using **Next.js**, a React-based framework that enables server-side rendering (SSR), static site generation (SSG), and optimized client-side rendering.  
-The application is designed with a strong focus on performance, scalability, maintainability, and user experience.
 
 ## Technology Stack
 
