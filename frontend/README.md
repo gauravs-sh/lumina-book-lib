@@ -11,8 +11,6 @@ The SSR-capable UI for authentication, book ingestion, borrowing, reviews, and r
 3. Run dev server:
    - `npm run dev`
 
----
-
 ## Testing
 - `npm test`
 
@@ -32,16 +30,12 @@ The SSR-capable UI for authentication, book ingestion, borrowing, reviews, and r
 - ESLint
 - Environment-based configuration
 
----
-
 # Frontend – Lumina Book Library
 
 ## Overview
 
 The frontend of **Lumina Book Library** is built using **Next.js**, a React-based framework that enables server-side rendering (SSR), static site generation (SSG), and optimized client-side rendering.  
 The application is designed with a strong focus on performance, scalability, maintainability, and user experience.
-
----
 
 ## Technology Stack
 
@@ -59,8 +53,6 @@ The application is designed with a strong focus on performance, scalability, mai
 - ESLint
 - Environment-based configuration
 
----
-
 ## Application Structure
 
 ```text
@@ -76,7 +68,6 @@ frontend/
 └── package.json
 ```
 
----
 # Additional Details:
 
 ## Component Design
@@ -147,7 +138,6 @@ React Query / TanStack Query
 - Loading indicators and empty-state handling
 - Defensive rendering to avoid UI crashes
 
----
 ## Build & Run
 
 ### Install dependencies:
