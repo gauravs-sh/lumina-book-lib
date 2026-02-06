@@ -34,6 +34,5 @@ async def test_document_ingestion_and_qa(client):
         headers=headers,
     )
 
-    print('ingestion response::::',response.json())
     assert response.json()["status"] == 200
     assert response.json()["data"]["answer"]

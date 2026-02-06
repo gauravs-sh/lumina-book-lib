@@ -8,7 +8,6 @@ async def get_token(client, email="booker@test.com", password="Password123!"):
         json={"email": email, "password": password},
     )
 
-    print('get_token::::', response.json())
     return response.json()["data"]["access_token"]
 
 
@@ -29,9 +28,6 @@ async def test_create_book(client):
         headers=headers,
     )
 
-    print('create_new_book', response.json())
-
-    # assert response.status_code == 201
     assert response.json()["status"] == 201
     payload = response.json()["data"]
     assert payload["title"] == "Create Book"
@@ -55,36 +51,26 @@ async def test_book_crud(client):
         headers=headers,
     )
 
-    print('create_new_book 2::::', response.json())
-    # assert response.status_code == 201
     assert response.json()["status"] == 201
-    # book_id = response.json()["id"]
     book_id = response.json()["data"]["id"]
-    print('generated_book_id:::', book_id)
 
     response = await client.get(f"/api/v1/books/{book_id}")
-    print('get_book_by_id::::', response.json())
     assert response.json()["status"] == 200
 
     response = await client.post(f"/api/v1/books/{book_id}/borrow", headers=headers)
-    print('borrow_book_by_id::::', response.json())
     assert response.json()["status"] == 200
 
     response = await client.post(f"/api/v1/books/{book_id}/return", headers=headers)
-    print('return_book_by_id::', response.json())
     assert response.json()["status"] == 200
 
     response = await client.get("/api/v1/books")
-    print('get books:::', response.json())
     assert response.json()["status"] == 200
     assert response.json()["data"]["items"]
 
     response = await client.get(f"/api/v1/books/{book_id}/summary")
     assert response.json()["status"] == 200
-    print('get book summary by id', response.json())
 
     response = await client.get(f"/api/v1/books/{book_id}/analysis")
-    print('book analysis:::::', response.json())
     assert response.json()["status"] == 200
 
     response = await client.put(
@@ -92,7 +78,6 @@ async def test_book_crud(client):
         json={"genre": "Drama"},
         headers=headers,
     )
-    print('book_update::', response)
     assert response.json()["status"] == 200
 
     response = await client.delete(f"/api/v1/books/{book_id}", headers=headers)

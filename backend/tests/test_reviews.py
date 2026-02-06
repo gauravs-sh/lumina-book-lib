@@ -39,6 +39,5 @@ async def test_add_review(client):
     assert response.json()["status"] == 201
 
     response = await client.get(f"/api/v1/books/{book_id}/reviews")
-    print('@response::', response.json())
     assert response.json()["status"] == 200
     assert len(response.json()["data"]) == 1
