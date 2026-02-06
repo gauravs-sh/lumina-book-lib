@@ -59,8 +59,8 @@ frontend/
 - React Hooks (useState, useEffect, useContext) for local and shared state
 - API-driven state handled at page or container level
 - Architecture supports future integration of:
-- Redux
-- Zustand
+   - Redux
+   - Zustand
 React Query / TanStack Query
 
 ## Data Fetching Strategy
@@ -80,8 +80,8 @@ React Query / TanStack Query
 - Controlled form components
 - Client-side validation with clear user feedback
 - Structured to support:
-- React Hook Form
-- Yup / Zod schemas (future-ready)
+   - React Hook Form
+   - Yup / Zod schemas (future-ready)
 
 ## Performance & Optimization
 - Automatic code splitting via Next.js
@@ -101,8 +101,8 @@ React Query / TanStack Query
 - Unit testing for reusable components
 - UI behavior testing for core flows
 - Test-friendly structure supporting:
-- Jest
-- React Testing Library
+   - Jest
+   - React Testing Library
 
 ## CDN & Asset Optimization
 - Static assets optimized and cache-friendly
