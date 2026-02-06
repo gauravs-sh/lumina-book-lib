@@ -3,8 +3,6 @@ The frontend of **Lumina Book Library** is built using **Next.js**, a React-base
 The application is designed with a strong focus on performance, scalability, maintainability, and user experience.
 The SSR-capable UI for authentication, book ingestion, borrowing, reviews, and recommendations.
 
----
-
 ## Setup
 1. Install dependencies:
    - `npm install`
