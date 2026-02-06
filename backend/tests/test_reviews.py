@@ -7,7 +7,7 @@ async def get_token(client, email="reviewer@test.com", password="Password123!"):
         "/api/v1/auth/login",
         json={"email": email, "password": password},
     )
-    return response.json()["access_token"]
+    return response.json()["data"]["access_token"]
 
 
 @pytest.mark.asyncio
@@ -26,18 +26,19 @@ async def test_add_review(client):
         files={"file": ("book.txt", b"Review content.", "text/plain")},
         headers=headers,
     )
-    book_id = response.json()["id"]
+    book_id = response.json()["data"]["id"]
 
     response = await client.post(f"/api/v1/books/{book_id}/borrow", headers=headers)
-    assert response.status_code == 200
+    assert response.json()["status"] == 200
 
     response = await client.post(
         f"/api/v1/books/{book_id}/reviews",
         json={"review_text": "Great book!", "rating": 5},
         headers=headers,
     )
-    assert response.status_code == 201
+    assert response.json()["status"] == 201
 
     response = await client.get(f"/api/v1/books/{book_id}/reviews")
-    assert response.status_code == 200
-    assert len(response.json()) == 1
+    print('@response::', response.json())
+    assert response.json()["status"] == 200
+    assert len(response.json()["data"]) == 1

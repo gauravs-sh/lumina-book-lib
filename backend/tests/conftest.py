@@ -6,7 +6,7 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 os.environ.setdefault("DATABASE_URL", "sqlite+aiosqlite:///./test.db")
-os.environ.setdefault("JWT_SECRET", "test-secret")
+os.environ.setdefault("JWT_SECRET", "luminalib_local_5f9f3c0b7e6a4d42b8f1e7c9a2d3f6b1")
 os.environ.setdefault("ADMIN_EMAIL", "admin@test.com")
 os.environ.setdefault("ADMIN_PASSWORD", "Admin123!")
 

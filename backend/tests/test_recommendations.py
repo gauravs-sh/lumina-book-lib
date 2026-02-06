@@ -7,7 +7,7 @@ async def get_token(client, email="rec@test.com", password="Password123!"):
         "/api/v1/auth/login",
         json={"email": email, "password": password},
     )
-    return response.json()["access_token"]
+    return response.json()["data"]["access_token"]
 
 
 @pytest.mark.asyncio
@@ -35,5 +35,5 @@ async def test_recommendations(client):
     )
 
     response = await client.get("/api/v1/recommendations", headers=headers)
-    assert response.status_code == 200
+    assert response.json()["status"] == 200
     assert response.json()

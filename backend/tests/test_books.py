@@ -7,7 +7,9 @@ async def get_token(client, email="booker@test.com", password="Password123!"):
         "/api/v1/auth/login",
         json={"email": email, "password": password},
     )
-    return response.json()["access_token"]
+
+    print('get_token::::', response.json())
+    return response.json()["data"]["access_token"]
 
 
 @pytest.mark.asyncio
@@ -27,8 +29,11 @@ async def test_create_book(client):
         headers=headers,
     )
 
-    assert response.status_code == 201
-    payload = response.json()
+    print('create_new_book', response.json())
+
+    # assert response.status_code == 201
+    assert response.json()["status"] == 201
+    payload = response.json()["data"]
     assert payload["title"] == "Create Book"
     assert payload["file_name"] == "book.txt"
 
@@ -49,34 +54,46 @@ async def test_book_crud(client):
         files={"file": ("book.txt", b"This is a test book content.", "text/plain")},
         headers=headers,
     )
-    assert response.status_code == 201
-    book_id = response.json()["id"]
+
+    print('create_new_book 2::::', response.json())
+    # assert response.status_code == 201
+    assert response.json()["status"] == 201
+    # book_id = response.json()["id"]
+    book_id = response.json()["data"]["id"]
+    print('generated_book_id:::', book_id)
 
     response = await client.get(f"/api/v1/books/{book_id}")
-    assert response.status_code == 200
+    print('get_book_by_id::::', response.json())
+    assert response.json()["status"] == 200
 
     response = await client.post(f"/api/v1/books/{book_id}/borrow", headers=headers)
-    assert response.status_code == 200
+    print('borrow_book_by_id::::', response.json())
+    assert response.json()["status"] == 200
 
     response = await client.post(f"/api/v1/books/{book_id}/return", headers=headers)
-    assert response.status_code == 200
+    print('return_book_by_id::', response.json())
+    assert response.json()["status"] == 200
 
     response = await client.get("/api/v1/books")
-    assert response.status_code == 200
-    assert response.json()["items"]
+    print('get books:::', response.json())
+    assert response.json()["status"] == 200
+    assert response.json()["data"]["items"]
 
     response = await client.get(f"/api/v1/books/{book_id}/summary")
-    assert response.status_code == 200
+    assert response.json()["status"] == 200
+    print('get book summary by id', response.json())
 
     response = await client.get(f"/api/v1/books/{book_id}/analysis")
-    assert response.status_code == 200
+    print('book analysis:::::', response.json())
+    assert response.json()["status"] == 200
 
     response = await client.put(
         f"/api/v1/books/{book_id}",
         json={"genre": "Drama"},
         headers=headers,
     )
-    assert response.status_code == 200
+    print('book_update::', response)
+    assert response.json()["status"] == 200
 
     response = await client.delete(f"/api/v1/books/{book_id}", headers=headers)
     assert response.status_code == 204
