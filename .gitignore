@@ -5,6 +5,7 @@ __pycache__/
 backend/.env
 backend/.pytest_cache/
 backend/test.db
+backend/storage/
 node_modules/
 frontend/dist/
 frontend/*.log
