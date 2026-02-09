@@ -1,4 +1,12 @@
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api/v1";
+const env =
+  (typeof globalThis !== "undefined" &&
+    (globalThis as typeof globalThis & {
+      process?: { env?: Record<string, string | undefined> };
+    }).process?.env) ||
+  {};
+
+const API_BASE =
+  env.VITE_API_BASE || env.NEXT_PUBLIC_API_BASE || "http://localhost:8000/api/v1";
 
 export async function apiRequest<T>(
   path: string,

@@ -11,6 +11,14 @@
     "types": ["jest", "@testing-library/jest-dom"],
     "plugins": [{ "name": "next" }]
   },
-  "include": ["next-env.d.ts", "app", "components", "lib", "styles", "__tests__"],
+  "include": [
+    "next-env.d.ts",
+    "app",
+    "components",
+    "lib",
+    "styles",
+    "__tests__",
+    "src"
+  ],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import LoginPage from "../app/login/page";
 import { AuthProvider } from "../components/AuthProvider";
+import { ToastProvider } from "../components/ToastProvider";
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn() }),
@@ -16,7 +17,9 @@ describe("LoginPage", () => {
   it("renders login form", () => {
     render(
       <AuthProvider>
-        <LoginPage />
+        <ToastProvider>
+          <LoginPage />
+        </ToastProvider>
       </AuthProvider>
     );
 

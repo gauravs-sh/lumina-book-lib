@@ -5,7 +5,7 @@ import { AuthProvider } from "../components/AuthProvider";
 
 it("renders login form", () => {
   render(
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AuthProvider>
         <Login />
       </AuthProvider>
